@@ -6,6 +6,7 @@ import (
 	modulev1 "cosmossdk.io/api/cosmos/tx/module/v1"
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/depinject"
+	"cosmossdk.io/tx/textual/valuerenderer"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -43,7 +44,8 @@ type TxOutputs struct {
 }
 
 func ProvideModule(in TxInputs) TxOutputs {
-	txConfig := tx.NewTxConfig(in.ProtoCodecMarshaler, tx.DefaultSignModes)
+	textual := valuerenderer.NewTextual(nil)
+	txConfig := tx.NewTxConfig(in.ProtoCodecMarshaler, tx.DefaultSignModes, textual)
 
 	baseAppOption := func(app *baseapp.BaseApp) {
 		// AnteHandlers

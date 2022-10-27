@@ -3,6 +3,7 @@ package tx
 import (
 	"fmt"
 
+	"cosmossdk.io/tx/textual/valuerenderer"
 	signingtypes "github.com/cosmos/cosmos-sdk/types/tx/signing"
 	"github.com/cosmos/cosmos-sdk/x/auth/signing"
 )
@@ -16,7 +17,7 @@ var DefaultSignModes = []signingtypes.SignMode{
 
 // makeSignModeHandler returns the default protobuf SignModeHandler supporting
 // SIGN_MODE_DIRECT, SIGN_MODE_DIRECT_AUX and SIGN_MODE_LEGACY_AMINO_JSON.
-func makeSignModeHandler(modes []signingtypes.SignMode) signing.SignModeHandler {
+func makeSignModeHandler(modes []signingtypes.SignMode, textual valuerenderer.Textual) signing.SignModeHandler {
 	if len(modes) < 1 {
 		panic(fmt.Errorf("no sign modes enabled"))
 	}
@@ -29,6 +30,8 @@ func makeSignModeHandler(modes []signingtypes.SignMode) signing.SignModeHandler 
 			handlers[i] = signModeDirectHandler{}
 		case signingtypes.SignMode_SIGN_MODE_LEGACY_AMINO_JSON:
 			handlers[i] = signModeLegacyAminoJSONHandler{}
+		case signingtypes.SignMode_SIGN_MODE_TEXTUAL:
+			handlers[i] = signModeTextualHandler{t: textual}
 		case signingtypes.SignMode_SIGN_MODE_DIRECT_AUX:
 			handlers[i] = signModeDirectAuxHandler{}
 		default:

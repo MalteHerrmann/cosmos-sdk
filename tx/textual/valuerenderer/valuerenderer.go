@@ -126,3 +126,9 @@ func (r *Textual) DefineScalar(scalar string, vr ValueRenderer) {
 	r.init()
 	r.scalars[scalar] = vr
 }
+
+// DefineScalar adds a value renderer to the given Cosmos scalar.
+func (r *Textual) DefineMsgRenderer(name protoreflect.FullName, vr ValueRenderer) {
+	r.init()
+	r.messages[name] = vr
+}
