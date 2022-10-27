@@ -48,6 +48,10 @@ func NewTextual(q CoinMetadataQueryFn) Textual {
 	return t
 }
 
+func (r Textual) GetSignBytes(data *textualv1.TextualData) ([]byte, error) {
+	return nil, nil
+}
+
 // GetValueRenderer returns the value renderer for the given FieldDescriptor.
 func (r Textual) GetValueRenderer(fd protoreflect.FieldDescriptor) (ValueRenderer, error) {
 	switch {
